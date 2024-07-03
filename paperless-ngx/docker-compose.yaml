@@ -1,0 +1,194 @@
+version: "3.4"
+
+services:
+  broker:
+    image: docker.io/library/redis:7
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+    volumes:
+      - type: volume
+        source: redisdata
+        target: /data
+    networks:
+      - backend
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:1.17.4
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+    depends_on:
+      - broker
+    healthcheck:
+      test:
+        ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - type: volume
+        source: data
+        target: /usr/src/paperless/data
+      - type: volume
+        source: media
+        target: /usr/src/paperless/media
+      - type: volume
+        source: paperless_export
+        target: /usr/src/paperless/export
+      - type: volume
+        source: paperless_consume
+        target: /usr/src/paperless/consume
+    networks:
+      - backend
+      - {{ db_backend }}
+    environment:
+      # More information at https://docs.paperless-ngx.com/configuration/
+      # REDIS Broker
+      PAPERLESS_REDIS: redis://broker:6379
+
+      # Database
+      PAPERLESS_DBHOST: db
+
+      # Database setup
+      PAPERLESS_DBNAME: {{ PAPERLESS_DBNAME }}
+      PAPERLESS_DBUSER: {{ PAPERLESS_DBUSER }}
+      PAPERLESS_DBPASS: {{ PAPERLESS_DBPASS }}
+
+      # Tika
+      PAPERLESS_TIKA_ENABLED: "false"
+
+      # Paths and folder
+      PAPERLESS_TRASH_DIR: ../media/trash/
+      PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_month}_{created_day}_{title}"
+
+      # Paths and folder - Additional Options
+      # PAPERLESS_CONSUMPTION_DIR: ../consume/
+      # PAPERLESS_DATA_DIR: ../data/
+      # PAPERLESS_MEDIA_ROOT: ../media/
+      # PAPERLESS_LOGGING_DIR: ../data/log/
+
+      # Logging
+      # PAPERLESS_LOGROTATE_MAX_SIZE: 1Mib
+      # PAPERLESS_LOGROTATE_MAX_BACKUPS: 20
+
+      # Hosting & Security
+      PAPERLESS_SECRET_KEY: {{ PAPERLESS_SECRET_KEY }}
+      PAPERLESS_URL: {{ PAPERLESS_URL }}
+      PAPERLESS_ALLOWED_HOSTS: {{ PAPERLESS_URL }}
+      PAPERLESS_CORS_ALLOWED_HOSTS: {{ PAPERLESS_URL }}
+      PAPERLESS_FORCE_SCRIPT_NAME: {{ PAPERLESS_FORCE_SCRIPT_NAME }}
+      PAPERLESS_STATIC_URL: {{ PAPERLESS_STATIC_URL }} # {{ PAPERLESS_FORCE_SCRIPT_NAME }}/static/
+      PAPERLESS_ADMIN_USER: {{ PAPERLESS_ADMIN_USER }}
+      PAPERLESS_ADMIN_MAIL: {{ PAPERLESS_ADMIN_MAIL }}
+      PAPERLESS_ADMIN_PASSWORD: {{ PAPERLESS_ADMIN_PASSWORD }}
+      PAPERLESS_USE_X_FORWARD_HOST: "true"
+
+      # Hosting & Security - Additional Options
+      # PAPERLESS_AUTO_LOGIN_USERNAME: <username>
+      # PAPERLESS_COOKIE_PREFIX: <str>
+      # PAPERLESS_ENABLE_HTTP_REMOTE_USER: <bool>
+      # PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: <str>
+      # PAPERLESS_LOGOUT_REDIRECT_URL: <str>
+      # PAPERLESS_USE_X_FORWARD_PORT: <bool>
+      # PAPERLESS_PROXY_SSL_HEADER: <json-list>
+      # PAPERLESS_EMAIL_CERTIFICATE_FILE: <path>
+
+      # OCR settings
+      PAPERLESS_OCR_LANGUAGE: deu
+
+      # OCR settings - Additional Options
+      # PAPERLESS_OCR_MODE: skip
+      # PAPERLESS_OCR_SKIP_ARCHIVE_FILE: never
+      # PAPERLESS_OCR_CLEAN: clean
+      # PAPERLESS_OCR_DESKEW: "true"
+      # PAPERLESS_OCR_ROTATE_PAGES: "true"
+      # PAPERLESS_OCR_ROTATE_PAGES_THRESHOLD: 12
+      # PAPERLESS_OCR_OUTPUT_TYPE: pdfa
+      # PAPERLESS_OCR_PAGES: 0
+      # PAPERLESS_OCR_IMAGE_DPI: <num>
+      # PAPERLESS_OCR_MAX_IMAGE_PIXELS: <num>
+      # PAPERLESS_OCR_USER_ARGS: <json>
+
+      # Software tweaks
+      PAPERLESS_TASK_WORKERS: 2
+      PAPERLESS_THREADS_PER_WORKER: 3
+      PAPERLESS_TIME_ZONE: Europe/Berlin
+      PAPERLESS_TRAIN_TASK_CRON: 5 */8 * * *
+
+      # Software tweaks - Additional Options
+      # PAPERLESS_WORKER_TIMEOUT: <num>
+      # PAPERLESS_ENABLE_NLTK: 1
+      # PAPERLESS_EMAIL_TASK_CRON: <cron expression>
+      # PAPERLESS_INDEX_TASK_CRON: <cron expression>
+      # PAPERLESS_SANITY_TASK_CRON: <cron expression>
+      # PAPERLESS_ENABLE_COMPRESSION: <bool>
+      # PAPERLESS_CONVERT_MEMORY_LIMIT: <num>
+      # PAPERLESS_CONVERT_TMPDIR: <path>
+
+      # Document Consumption
+      PAPERLESS_CONSUMER_RECURSIVE: "true"
+      PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+      PAPERLESS_NUMBER_OF_SUGGESTED_DATES: 5
+
+      # Document Consumption - Additional Options
+      # PAPERLESS_CONSUMER_DELETE_DUPLICATES: "false"
+      # PAPERLESS_CONSUMER_IGNORE_PATTERNS: <json>
+      # PAPERLESS_CONSUMER_BARCODE_SCANNER: <string>
+      # PAPERLESS_PRE_CONSUME_SCRIPT: <filename>
+      # PAPERLESS_POST_CONSUME_SCRIPT: <filename>
+      # PAPERLESS_FILENAME_DATE_ORDER: <format>
+      # PAPERLESS_THUMBNAIL_FONT_NAME: <filename>
+      # PAPERLESS_DATE_ORDER: <format>
+
+      # Polling
+      # PAPERLESS_CONSUMER_POLLING: <num>
+      # PAPERLESS_CONSUMER_POLLING_RETRY_COUNT: <num>
+      # PAPERLESS_CONSUMER_POLLING_DELAY: <num>
+
+      # iNotify
+      # PAPERLESS_CONSUMER_INOTIFY_DELAY: 0.5
+
+      # Barcodes
+      PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
+      PAPERLESS_CONSUMER_BARCODE_TIFF_SUPPORT: "false"
+      PAPERLESS_CONSUMER_BARCODE_STRING: PATCHT
+
+      # Barcodes - Additional Options
+      # PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: <bool>
+      # PAPERLESS_CONSUMER_ASN_BARCODE_PREFIX: <string>
+      # PAPERLESS_CONSUMER_BARCODE_UPSCALE: <float>
+      # PAPERLESS_CONSUMER_BARCODE_DPI: <int>
+
+      # Collate Double-Sided Documents
+      # PAPERLESS_CONSUMER_ENABLE_COLLATE_DOUBLE_SIDED: <bool>
+      # PAPERLESS_CONSUMER_COLLATE_DOUBLE_SIDED_SUBDIR_NAME: <str>
+      # PAPERLESS_CONSUMER_COLLATE_DOUBLE_SIDED_TIFF_SUPPORT: <bool>
+
+      # Docker-specific options
+      PAPERLESS_WEBSERVER_WORKERS: 2
+
+      # Docker-specific options - Additional Options
+      # PAPERLESS_BIND_ADDR: [::]
+      # PAPERLESS_PORT: 8000
+      # USERMAP_UID: 1000
+      # USERMAP_GID: 1000
+      # PAPERLESS_OCR_LANGUAGES: <list>
+
+networks:
+  backend:
+  {{ db_backend }}:
+    external: true
+
+volumes:
+  redisdata:
+  data:
+  media:
+  paperless_export:
+    external: true
+  paperless_consume:
+    external: true
