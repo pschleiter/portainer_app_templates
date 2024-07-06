@@ -1,13 +1,7 @@
-version: "3.4"
-
 services:
   broker:
     image: docker.io/library/redis:7
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: any
+    restart: unless-stopped
     volumes:
       - type: volume
         source: redisdata
@@ -17,11 +11,7 @@ services:
 
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:1.17.4
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: any
+    restart: unless-stopped
     depends_on:
       - broker
     healthcheck:
