@@ -36,25 +36,6 @@
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Nextcloud_Logo.svg/1920px-Nextcloud_Logo.svg.png",
       "image": "nextcloud:latest",
       "restart_policy": "on-failure",
-      "env": [
-        {
-          "name": "POSTGRES_Host",
-          "label": "Postgres Database Host"
-        },
-        {
-          "name": "POSTGRES_DB",
-          "label": "Postgres Database Name"
-        },
-        {
-          "name": "POSTGRES_USER",
-          "label": "Postgres Database User"
-        },
-        {
-          "name": "POSTGRES_PASSWORD",
-          "label": "Postgres Database Password"
-        }
-      ],
-      "ports": ["5432/tcp"],
       "volumes": [
         {
           "container": "/var/www/html"
