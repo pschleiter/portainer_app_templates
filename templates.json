@@ -20,10 +20,16 @@
           "label": "Superuser password"
         }
       ],
-      "ports": ["5432/tcp"],
       "volumes": [
         {
-          "container": "/var/lib/postgresql/data"
+          "container": "/var/lib/postgresql/data",
+          "bind": "postgres_data"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
         }
       ]
     },
@@ -38,7 +44,80 @@
       "restart_policy": "on-failure",
       "volumes": [
         {
-          "container": "/var/www/html"
+          "container": "/var/www/html",
+          "bind": "nextcloud_data"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.rule",
+          "value": "Host(<hostname>)"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.service",
+          "value": "nextcloud"
+        },
+        {
+          "name": "traefik.http.services.nextcloud.loadbalancer.server.port",
+          "value": "80"
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "title": "Pi-hole",
+      "description": "DNS server",
+      "categories": ["network"],
+      "platform": "linux",
+      "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/15/Pi-hole_vector_logo.svg/1024px-Pi-hole_vector_logo.svg.png",
+      "image": "pihole/pihole",
+      "restart_policy": "always",
+      "env": [
+        {
+          "name": "TZ",
+          "default": "Europa/Berlin"
+        },
+        {
+          "name": "CORS_HOSTS"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/etc/pihole",
+          "bind": "pihole_data"
+        },
+        {
+          "container": "/etc/dnsmasq.d"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.pihole.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.pihole.rule",
+          "value": "Host(<hostname>) && RoutePrefix(`/admin`)"
+        },
+        {
+          "name": "traefik.http.routers.pihole.service",
+          "value": "pihole"
+        },
+        {
+          "name": "traefik.http.services.pihole.loadbalancer.server.port",
+          "value": "80"
         }
       ]
     }
