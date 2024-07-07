@@ -1,15 +1,30 @@
-[
-  {
-    "type": "container",
-    "title": "Postgres",
-    "description": "Simple postgres SQL database",
-    "logo": "https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/postgres/logo.png",
-    "platform": "linux",
-    "image": "postgres:latest",
-    "volumes": ["/var/lib/postgresql/data"],
-    "repository": {
-      "url": "https://github.com/pschleiter/portainer_app_templates",
-      "stackfile": "postgres/docker-compose.yaml"
+{
+  "version": "2",
+  "templates": [
+    {
+      "type": 1,
+      "title": "PostgreSQL",
+      "description": "The most advanced open-source database",
+      "categories": ["database"],
+      "platform": "linux",
+      "logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/postgres.png",
+      "image": "postgres:latest",
+      "env": [
+        {
+          "name": "POSTGRES_USER",
+          "label": "Superuser"
+        },
+        {
+          "name": "POSTGRES_PASSWORD",
+          "label": "Superuser password"
+        }
+      ],
+      "ports": ["5432/tcp"],
+      "volumes": [
+        {
+          "container": "/var/lib/postgresql/data"
+        }
+      ]
     }
-  }
-]
+  ]
+}
