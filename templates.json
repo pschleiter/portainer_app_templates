@@ -111,7 +111,7 @@
         },
         {
           "name": "traefik.http.routers.pihole.rule",
-          "value": "Host(<hostname>) && RoutePrefix(`/admin`)"
+          "value": "Host(<hostname>) && PathPrefix(`/admin`)"
         },
         {
           "name": "traefik.http.routers.pihole.service",
