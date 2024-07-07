@@ -82,11 +82,13 @@
       "restart_policy": "always",
       "env": [
         {
+          "label": "Timezone",
           "name": "TZ",
           "default": "Europa/Berlin"
         },
         {
-          "name": "CORS_HOSTS"
+          "label": "Hosts Lan IP",
+          "name": "FTLCONF_LOCAL_IPV4"
         }
       ],
       "volumes": [
