@@ -122,6 +122,59 @@
           "value": "80"
         }
       ]
+    },
+    {
+      "type": 3,
+      "title": "Paperless NGX",
+      "description": "Document management system",
+      "categories": ["dms"],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/pschleiter/portainer-app-templates",
+        "stackfile": "paperless-ngx/docker-compose.yml"
+      },
+      "env": [
+        {
+          "label": "Database name",
+          "description": "Database name in PostgreSQL or MariaDB",
+          "name": "PAPERLESS_DBNAME"
+        },
+        {
+          "label": "Database user",
+          "description": "Database user in PostgreSQL or MariaDB.",
+          "name": "PAPERLESS_DBUSER"
+        },
+        {
+          "label": "Database password",
+          "description": "Database password for PostgreSQL or MariaDB.",
+          "name": "PAPERLESS_DBPASS"
+        },
+        {
+          "label": "Secret key",
+          "description": "Paperless uses this to make session tokens.",
+          "name": "PAPERLESS_SECRET_KEY"
+        },
+        {
+          "label": "Paperless Url",
+          "description": "This setting can be used to set the three options below (ALLOWED_HOSTS, CORS_ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS).",
+          "name": "PAPERLESS_URL"
+        },
+        {
+          "label": "Admin username",
+          "description": "If this environment variable is specified, Paperless automatically creates a superuser with the provided username at start.",
+          "name": "PAPERLESS_ADMIN_USER"
+        },
+        {
+          "label": "Admin password",
+          "description": "This will be the password of the automatically created superuser.",
+          "name": "PAPERLESS_ADMIN_PASSWORD"
+        },
+        {
+          "label": "Admin mail",
+          "description": "Specify superuser email address.",
+          "name": "PAPERLESS_ADMIN_MAIL"
+        }
+      ]
     }
   ]
 }

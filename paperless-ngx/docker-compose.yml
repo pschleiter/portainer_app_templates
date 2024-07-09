@@ -1,7 +1,7 @@
 services:
   broker:
-    image: docker.io/library/redis:7
-    restart: unless-stopped
+    image: docker.io/library/redis:latest
+    restart: always
     volumes:
       - type: volume
         source: redisdata
@@ -10,7 +10,7 @@ services:
       - backend
 
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:1.17.4
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
     restart: unless-stopped
     depends_on:
       - broker
@@ -35,7 +35,6 @@ services:
         target: /usr/src/paperless/consume
     networks:
       - backend
-      - {{ db_backend }}
     environment:
       # More information at https://docs.paperless-ngx.com/configuration/
       # REDIS Broker
@@ -45,9 +44,9 @@ services:
       PAPERLESS_DBHOST: db
 
       # Database setup
-      PAPERLESS_DBNAME: {{ PAPERLESS_DBNAME }}
-      PAPERLESS_DBUSER: {{ PAPERLESS_DBUSER }}
-      PAPERLESS_DBPASS: {{ PAPERLESS_DBPASS }}
+      PAPERLESS_DBNAME: ${PAPERLESS_DBNAME}
+      PAPERLESS_DBUSER: ${PAPERLESS_DBUSER}
+      PAPERLESS_DBPASS: ${PAPERLESS_DBPASS}
 
       # Tika
       PAPERLESS_TIKA_ENABLED: "false"
@@ -67,24 +66,24 @@ services:
       # PAPERLESS_LOGROTATE_MAX_BACKUPS: 20
 
       # Hosting & Security
-      PAPERLESS_SECRET_KEY: {{ PAPERLESS_SECRET_KEY }}
-      PAPERLESS_URL: {{ PAPERLESS_URL }}
-      PAPERLESS_ALLOWED_HOSTS: {{ PAPERLESS_URL }}
-      PAPERLESS_CORS_ALLOWED_HOSTS: {{ PAPERLESS_URL }}
-      PAPERLESS_FORCE_SCRIPT_NAME: {{ PAPERLESS_FORCE_SCRIPT_NAME }}
-      PAPERLESS_STATIC_URL: {{ PAPERLESS_STATIC_URL }} # {{ PAPERLESS_FORCE_SCRIPT_NAME }}/static/
-      PAPERLESS_ADMIN_USER: {{ PAPERLESS_ADMIN_USER }}
-      PAPERLESS_ADMIN_MAIL: {{ PAPERLESS_ADMIN_MAIL }}
-      PAPERLESS_ADMIN_PASSWORD: {{ PAPERLESS_ADMIN_PASSWORD }}
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
+      PAPERLESS_URL: ${PAPERLESS_URL}
+      PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
+      PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
+      PAPERLESS_ADMIN_MAIL: ${PAPERLESS_ADMIN_MAIL}
       PAPERLESS_USE_X_FORWARD_HOST: "true"
+      PAPERLESS_USE_X_FORWARD_PORT: "true"
 
       # Hosting & Security - Additional Options
+      # PAPERLESS_FORCE_SCRIPT_NAME: <str>
+      # PAPERLESS_STATIC_URL: <str>
       # PAPERLESS_AUTO_LOGIN_USERNAME: <username>
+      # PAPERLESS_ALLOWED_HOSTS: <str>
+      # PAPERLESS_CORS_ALLOWED_HOSTS: <str>
       # PAPERLESS_COOKIE_PREFIX: <str>
       # PAPERLESS_ENABLE_HTTP_REMOTE_USER: <bool>
       # PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: <str>
       # PAPERLESS_LOGOUT_REDIRECT_URL: <str>
-      # PAPERLESS_USE_X_FORWARD_PORT: <bool>
       # PAPERLESS_PROXY_SSL_HEADER: <json-list>
       # PAPERLESS_EMAIL_CERTIFICATE_FILE: <path>
 
@@ -171,8 +170,6 @@ services:
 
 networks:
   backend:
-  {{ db_backend }}:
-    external: true
 
 volumes:
   redisdata:
