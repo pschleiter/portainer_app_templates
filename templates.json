@@ -148,7 +148,7 @@
       "categories": ["dms"],
       "platform": "linux",
       "repository": {
-        "url": "https://github.com/pschleiter/portainer-app-templates",
+        "url": "https://github.com/pschleiter/portainer_app_templates",
         "stackfile": "paperless-ngx/docker-compose.yml"
       },
       "env": [
