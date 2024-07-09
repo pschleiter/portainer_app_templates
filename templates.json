@@ -30,6 +30,24 @@
         {
           "name": "traefik.enable",
           "value": "false"
+        },
+        {
+          "name": "traefik.docker.network",
+          "value": "<network>"
+        },
+        {
+          "name": "traefik.tcp.routers.database.entryPoints",
+          "value": "database"
+        },
+        {
+          "name": "traefik.tcp.routers.database.rule",
+          "value": "HostSNI(`*`)"
+        },
+        { "name": "traefik.tcp.routers.database.service", "value": "database" },
+        { "name": "traefik.tcp.routers.database.tls", "value": "true" },
+        {
+          "name": "traefik.tcp.services.database.loadbalancer.server.port",
+          "value": "5432"
         }
       ]
     },
