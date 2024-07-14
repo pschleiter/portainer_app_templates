@@ -76,6 +76,14 @@
           "value": "websecure"
         },
         {
+          "name": "traefik.http.routers.nextcloud.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.tls.certresolver",
+          "value": "myresolver"
+        },
+        {
           "name": "traefik.http.routers.nextcloud.rule",
           "value": "Host(<hostname>)"
         },
@@ -126,6 +134,14 @@
         {
           "name": "traefik.http.routers.pihole.entrypoints",
           "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.pihole.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.pihole.tls.certresolver",
+          "value": "myresolver"
         },
         {
           "name": "traefik.http.routers.pihole.rule",
