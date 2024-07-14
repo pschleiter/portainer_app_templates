@@ -189,9 +189,9 @@
           "name": "PAPERLESS_SECRET_KEY"
         },
         {
-          "label": "Paperless Url",
-          "description": "This setting can be used to set the three options below (ALLOWED_HOSTS, CORS_ALLOWED_HOSTS and CSRF_TRUSTED_ORIGINS).",
-          "name": "PAPERLESS_URL"
+          "label": "Paperless Domain",
+          "description": "e.g. mydomain.com",
+          "name": "PAPERLESS_DOMAIN"
         },
         {
           "label": "Admin username",

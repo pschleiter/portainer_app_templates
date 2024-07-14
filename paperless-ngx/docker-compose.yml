@@ -28,10 +28,13 @@ services:
         source: media
         target: /usr/src/paperless/media
       - type: volume
-        source: paperless_export
+        source: trash
+        target: /usr/src/paperless/trash
+      - type: volume
+        source: export
         target: /usr/src/paperless/export
       - type: volume
-        source: paperless_consume
+        source: consume
         target: /usr/src/paperless/consume
     networks:
       - backend
@@ -52,7 +55,7 @@ services:
       PAPERLESS_TIKA_ENABLED: "false"
 
       # Paths and folder
-      PAPERLESS_TRASH_DIR: ../media/trash/
+      PAPERLESS_EMPTY_TRASH_DIR: ../trash/
       PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_month}_{created_day}_{title}"
 
       # Paths and folder - Additional Options
@@ -67,7 +70,7 @@ services:
 
       # Hosting & Security
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
-      PAPERLESS_URL: ${PAPERLESS_URL}
+      PAPERLESS_URL: https://${PAPERLESS_DOMAIN}
       PAPERLESS_ADMIN_USER: ${PAPERLESS_ADMIN_USER}
       PAPERLESS_ADMIN_PASSWORD: ${PAPERLESS_ADMIN_PASSWORD}
       PAPERLESS_ADMIN_MAIL: ${PAPERLESS_ADMIN_MAIL}
@@ -167,15 +170,22 @@ services:
       # USERMAP_UID: 1000
       # USERMAP_GID: 1000
       # PAPERLESS_OCR_LANGUAGES: <list>
+    labels:
+      - traefik.enable=false
+      - traefik.http.routers.paperless.entrypoints=websecure
+      - traefik.http.routers.paperless.tls=true
+      - traefik.http.routers.paperless.tls.certresolver=myresolver
+      - traefik.http.routers.paperless.rule=Host(${PAPERLESS_DOMAIN})
+      - traefik.http.routers.paperless.service=paperless
+      - traefik.http.services.paperless.loadbalancer.server.port=80
 
 networks:
   backend:
 
 volumes:
   redisdata:
+  consume:
   data:
   media:
-  paperless_export:
-    external: true
-  paperless_consume:
-    external: true
+  trash:
+  export:
