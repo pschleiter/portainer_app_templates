@@ -28,9 +28,6 @@ services:
         source: media
         target: /usr/src/paperless/media
       - type: volume
-        source: trash
-        target: /usr/src/paperless/trash
-      - type: volume
         source: export
         target: /usr/src/paperless/export
       - type: volume
@@ -55,7 +52,7 @@ services:
       PAPERLESS_TIKA_ENABLED: "false"
 
       # Paths and folder
-      PAPERLESS_EMPTY_TRASH_DIR: ../trash/
+      PAPERLESS_EMPTY_TRASH_DIR: ../media/trash/
       PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_month}_{created_day}_{title}"
 
       # Paths and folder - Additional Options
@@ -175,9 +172,9 @@ services:
       - traefik.http.routers.paperless.entrypoints=websecure
       - traefik.http.routers.paperless.tls=true
       - traefik.http.routers.paperless.tls.certresolver=myresolver
-      - traefik.http.routers.paperless.rule=Host(${PAPERLESS_DOMAIN})
+      - traefik.http.routers.paperless.rule=Host(`${PAPERLESS_DOMAIN}`)
       - traefik.http.routers.paperless.service=paperless
-      - traefik.http.services.paperless.loadbalancer.server.port=80
+      - traefik.http.services.paperless.loadbalancer.server.port=8000
 
 networks:
   backend:
