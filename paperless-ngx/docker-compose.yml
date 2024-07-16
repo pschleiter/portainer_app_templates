@@ -52,7 +52,7 @@ services:
       PAPERLESS_TIKA_ENABLED: "false"
 
       # Paths and folder
-      PAPERLESS_EMPTY_TRASH_DIR: ../media/trash/
+      # PAPERLESS_EMPTY_TRASH_DIR: ../media/trash/
       PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_month}_{created_day}_{title}"
 
       # Paths and folder - Additional Options
@@ -184,5 +184,4 @@ volumes:
   consume:
   data:
   media:
-  trash:
   export:
