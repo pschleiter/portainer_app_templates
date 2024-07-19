@@ -136,6 +136,30 @@
           "value": "false"
         },
         {
+          "name": "traefik.http.routers.lms.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.lms.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.lms.tls.certresolver",
+          "value": "myresolver"
+        },
+        {
+          "name": "traefik.http.routers.lms.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.lms.service",
+          "value": "lms"
+        },
+        {
+          "name": "traefik.http.services.lms.loadbalancer.server.port",
+          "value": "9000"
+        },
+        {
           "name": "traefik.tcp.routers.lms_control.entryPoints",
           "value": "lms_control"
         },
