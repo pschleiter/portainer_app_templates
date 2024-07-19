@@ -85,7 +85,7 @@
         },
         {
           "name": "traefik.http.routers.nextcloud.rule",
-          "value": "Host(<hostname>)"
+          "value": "Host(`<hostname>`)"
         },
         {
           "name": "traefik.http.routers.nextcloud.service",
@@ -94,6 +94,80 @@
         {
           "name": "traefik.http.services.nextcloud.loadbalancer.server.port",
           "value": "80"
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "title": "Lyrion Music Server",
+      "description": "With the help of many plugins, Lyrion Music Server can stream not only your local music collection, but content from many music services and internet radio stations to your players.",
+      "categories": ["music"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/LMS-Community/slimserver-platforms/public/9.0/win32/res/SqueezeCenter.ico",
+      "image": "lmscommunity/logitechmediaserver:stable",
+      "restart_policy": "always",
+      "env": [
+        {
+          "label": "Timezone",
+          "name": "TZ",
+          "default": "Europa/Berlin"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/config",
+          "bind": "lms_config",
+          "readonly": false
+        },
+        {
+          "container": "/music",
+          "bind": "lms_music",
+          "readonly": true
+        },
+        {
+          "container": "/playlist",
+          "bind": "lms_playlist",
+          "readonly": false
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_control.entryPoints",
+          "value": "lms_control"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_control.rule",
+          "value": "HostSNI(`<hostname>`)"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_control.service",
+          "value": "lms_control"
+        },
+        { "name": "traefik.tcp.routers.lms_control.tls", "value": "true" },
+        {
+          "name": "traefik.tcp.services.lms_control.loadbalancer.server.port",
+          "value": "9090"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_stream.entryPoints",
+          "value": "lms_stream,lms_stream_udp"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_stream.rule",
+          "value": "HostSNI(`<hostname>`)"
+        },
+        {
+          "name": "traefik.tcp.routers.lms_stream.service",
+          "value": "lms_stream"
+        },
+        { "name": "traefik.tcp.routers.lms_stream.tls", "value": "true" },
+        {
+          "name": "traefik.tcp.services.lms_stream.loadbalancer.server.port",
+          "value": "3483"
         }
       ]
     },
@@ -145,7 +219,7 @@
         },
         {
           "name": "traefik.http.routers.pihole.rule",
-          "value": "Host(<hostname>) && PathPrefix(`/admin`)"
+          "value": "Host(`<hostname>`) && PathPrefix(`/admin`)"
         },
         {
           "name": "traefik.http.routers.pihole.service",
