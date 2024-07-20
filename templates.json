@@ -111,6 +111,11 @@
           "label": "Timezone",
           "name": "TZ",
           "default": "Europa/Berlin"
+        },
+        {
+          "label": "Web interface port",
+          "name": "HTTP_PORT",
+          "default": 9000
         }
       ],
       "volumes": [
@@ -157,6 +162,30 @@
         },
         {
           "name": "traefik.http.services.lms.loadbalancer.server.port",
+          "value": "9000"
+        },
+        {
+          "name": "traefik.http.routers.lms_local.entrypoints",
+          "value": "lms_local"
+        },
+        {
+          "name": "traefik.http.routers.lms_local.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.lms_local.tls.certresolver",
+          "value": "myresolver"
+        },
+        {
+          "name": "traefik.http.routers.lms_local.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.lms_local.service",
+          "value": "lms_local"
+        },
+        {
+          "name": "traefik.http.services.lms_local.loadbalancer.server.port",
           "value": "9000"
         },
         {
