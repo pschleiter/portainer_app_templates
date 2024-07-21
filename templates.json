@@ -165,27 +165,27 @@
           "value": "9000"
         },
         {
-          "name": "traefik.http.routers.lms_local.entrypoints",
-          "value": "lms_local"
+          "name": "traefik.http.routers.lms_web.entrypoints",
+          "value": "lms_web"
         },
         {
-          "name": "traefik.http.routers.lms_local.tls",
+          "name": "traefik.http.routers.lms_web.tls",
           "value": "true"
         },
         {
-          "name": "traefik.http.routers.lms_local.tls.certresolver",
+          "name": "traefik.http.routers.lms_web.tls.certresolver",
           "value": "myresolver"
         },
         {
-          "name": "traefik.http.routers.lms_local.rule",
+          "name": "traefik.http.routers.lms_web.rule",
           "value": "Host(`<hostname>`)"
         },
         {
-          "name": "traefik.http.routers.lms_local.service",
-          "value": "lms_local"
+          "name": "traefik.http.routers.lms_web.service",
+          "value": "lms_web"
         },
         {
-          "name": "traefik.http.services.lms_local.loadbalancer.server.port",
+          "name": "traefik.http.services.lms_web.loadbalancer.server.port",
           "value": "9000"
         },
         {
@@ -253,6 +253,7 @@
           "container": "/etc/dnsmasq.d"
         }
       ],
+      "ports": ["53:53/tcp", "53:53/udp"],
       "labels": [
         {
           "name": "traefik.enable",
