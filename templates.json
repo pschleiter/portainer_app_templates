@@ -174,7 +174,8 @@
           "bind": "pihole_data"
         },
         {
-          "container": "/etc/dnsmasq.d"
+          "container": "/etc/dnsmasq.d",
+          "bind": "pihole_dns"
         }
       ],
       "ports": ["53:53/tcp", "53:53/udp"],
