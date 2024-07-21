@@ -46,6 +46,11 @@
         {
           "label": "Traefik IP",
           "name": "TRUSTED_PROXIES"
+        },
+        {
+          "label": "Protocol",
+          "name": "OVERWRITEPROTOCOL",
+          "default": "https"
         }
       ],
       "volumes": [
