@@ -42,6 +42,17 @@
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Nextcloud_Logo.svg/1920px-Nextcloud_Logo.svg.png",
       "image": "nextcloud:latest",
       "restart_policy": "on-failure",
+      "env": [
+        {
+          "label": "Host",
+          "name": "OVERWRITEHOST"
+        },
+        {
+          "label": "Protocol",
+          "name": "OVERWRITEPROTOCOL",
+          "default": "https"
+        }
+      ],
       "volumes": [
         {
           "container": "/var/www/html",
