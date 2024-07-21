@@ -128,6 +128,12 @@
           "readonly": false
         }
       ],
+      "ports": [
+        "9000:9000/tcp",
+        "9090:9090/tcp",
+        "3483:3483/tcp",
+        "3483:3483/udp"
+      ],
       "labels": [
         {
           "name": "traefik.enable",
