@@ -44,13 +44,8 @@
       "restart_policy": "on-failure",
       "env": [
         {
-          "label": "Host",
-          "name": "OVERWRITEHOST"
-        },
-        {
-          "label": "Protocol",
-          "name": "OVERWRITEPROTOCOL",
-          "default": "https"
+          "label": "Traefik IP",
+          "name": "TRUSTED_PROXIES"
         }
       ],
       "volumes": [
