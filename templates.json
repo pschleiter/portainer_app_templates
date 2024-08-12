@@ -313,6 +313,60 @@
         }
       ],
       "ports": ["9999:9999/tcp"]
+    },
+    {
+      "type": 1,
+      "title": "Homeassistant",
+      "description": "Open source home automation that puts local control and privacy first.",
+      "categories": ["automation"],
+      "platform": "linux",
+      "logo": "https://en.wikipedia.org/wiki/Home_Assistant#/media/File:Home_Assistant_logo_(2023).svg",
+      "image": "ghcr.io/home-assistant/home-assistant:stable",
+      "restart_policy": "always",
+      "env": [
+        {
+          "label": "Timezone",
+          "name": "TZ",
+          "default": "Europa/Berlin"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/config",
+          "bind": "hass_config"
+        }
+      ],
+      
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.hass.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.hass.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.hass.tls.certresolver",
+          "value": "myresolver"
+        },
+        {
+          "name": "traefik.http.routers.hass.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.hass.service",
+          "value": "hass"
+        },
+        {
+          "name": "traefik.http.services.hass.loadbalancer.server.port",
+          "value": "8123"
+        }
+      ]
     }
   ]
 }
