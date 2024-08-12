@@ -312,7 +312,7 @@
           "bind": "deconz_data"
         }
       ],
-      "ports": ["9999:9999/tcp"],
+      "ports": ["9999:9999/tcp"]
     }
   ]
 }
