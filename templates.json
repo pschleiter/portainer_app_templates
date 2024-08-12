@@ -296,7 +296,12 @@
           "default": "Europa/Berlin"
         },
         {
-          "label": "Device",
+          "label": "Web interface port",
+          "name" : "DECONZ_WEB_PORT",
+          "default": "9999"
+        },
+        {
+          "label": "Device - Ressource must be added",
           "name": "DECONZ_DEVICE",
           "default": "/dev/ttyACM0"
         }
@@ -307,36 +312,7 @@
           "bind": "deconz_data"
         }
       ],
-      "labels": [
-        {
-          "name": "traefik.enable",
-          "value": "false"
-        },
-        {
-          "name": "traefik.http.routers.deconz.entrypoints",
-          "value": "websecure"
-        },
-        {
-          "name": "traefik.http.routers.deconz.tls",
-          "value": "true"
-        },
-        {
-          "name": "traefik.http.routers.deconz.tls.certresolver",
-          "value": "myresolver"
-        },
-        {
-          "name": "traefik.http.routers.deconz.rule",
-          "value": "Host(`<hostname>`)"
-        },
-        {
-          "name": "traefik.http.routers.deconz.service",
-          "value": "deconz"
-        },
-        {
-          "name": "traefik.http.services.deconz.loadbalancer.server.port",
-          "value": "80"
-        }
-      ]
+      "ports": ["9999:9999/tcp"],
     }
   ]
 }
