@@ -279,6 +279,64 @@
           "name": "PAPERLESS_ADMIN_MAIL"
         }
       ]
+    },
+    {
+      "type": 1,
+      "title": "deCONZ",
+      "description": "This Docker image containerizes the deCONZ software from Dresden Elektronik, which controls a ZigBee network using a Conbee USB or RaspBee GPIO serial interface.",
+      "categories": ["network"],
+      "platform": "linux",
+      "logo": "https://www.phoscon.de/img/favicon/android-icon-144x144.png",
+      "image": "deconzcommunity/deconz",
+      "restart_policy": "always",
+      "env": [
+        {
+          "label": "Timezone",
+          "name": "TZ",
+          "default": "Europa/Berlin"
+        },
+        {
+          "label": "Device",
+          "name": "DECONZ_DEVICE",
+          "default": "/dev/ttyACM0"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/opt/deCONZ",
+          "bind": "deconz_data"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.deconz.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.deconz.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.deconz.tls.certresolver",
+          "value": "myresolver"
+        },
+        {
+          "name": "traefik.http.routers.deconz.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.deconz.service",
+          "value": "deconz"
+        },
+        {
+          "name": "traefik.http.services.deconz.loadbalancer.server.port",
+          "value": "80"
+        }
+      ]
     }
   ]
 }
