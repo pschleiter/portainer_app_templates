@@ -167,62 +167,74 @@
     },
     {
       "type": 1,
-      "title": "Pi-hole",
-      "description": "DNS server",
-      "categories": ["network"],
+      "title": "Keycloak",
+      "description": "Keycloak is an open source software product to allow single sign-on with identity and access management aimed at modern applications and services.",
+      "categories": ["iam"],
       "platform": "linux",
-      "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/15/Pi-hole_vector_logo.svg/1024px-Pi-hole_vector_logo.svg.png",
-      "image": "pihole/pihole",
+      "logo": "https://www.keycloak.org/resources/images/icon.svg",
+      "image": "quay.io/keycloak/keycloak:latest",
       "restart_policy": "always",
       "env": [
         {
-          "label": "Timezone",
-          "name": "TZ",
-          "default": "Europa/Berlin"
+          "label": "Database type",
+          "name": "KC_DB",
+          "default": "postgres"
         },
         {
-          "label": "Hosts Lan IP",
-          "name": "FTLCONF_LOCAL_IPV4"
-        }
-      ],
-      "volumes": [
-        {
-          "container": "/etc/pihole",
-          "bind": "pihole_data"
+          "label": "Database url",
+          "name": "KC_DB_URL",
+          "default": "jdbc:postgresql://db/keycloak"
         },
         {
-          "container": "/etc/dnsmasq.d",
-          "bind": "pihole_dns"
+          "label": "Database username",
+          "name": "KC_DB_USERNAME"
+        },
+        {
+          "label": "Database password",
+          "name": "KC_DB_PASSWORD"
+        },
+        {
+          "label": "Hostname",
+          "name": "KC_HOSTNAME"
+        },
+        {
+          "label": "Admin username",
+          "name": "KEYCLOAK_ADMIN",
+          "default": "admin"
+        },
+        {
+          "label": "Admin password",
+          "name": "KEYCLOAK_ADMIN_PASSWORD",
+          "default": "change_me"
         }
       ],
-      "ports": ["53:53/tcp", "53:53/udp"],
       "labels": [
         {
           "name": "traefik.enable",
           "value": "false"
         },
         {
-          "name": "traefik.http.routers.pihole.entrypoints",
+          "name": "traefik.http.routers.keycloak.entrypoints",
           "value": "websecure"
         },
         {
-          "name": "traefik.http.routers.pihole.tls",
+          "name": "traefik.http.routers.keycloak.tls",
           "value": "true"
         },
         {
-          "name": "traefik.http.routers.pihole.tls.certresolver",
+          "name": "traefik.http.routers.keycloak.tls.certresolver",
           "value": "myresolver"
         },
         {
-          "name": "traefik.http.routers.pihole.rule",
-          "value": "Host(`<hostname>`) && PathPrefix(`/admin`)"
+          "name": "traefik.http.routers.keycloak.rule",
+          "value": "Host(`<hostname>`)"
         },
         {
-          "name": "traefik.http.routers.pihole.service",
-          "value": "pihole"
+          "name": "traefik.http.routers.keycloak.service",
+          "value": "keycloak"
         },
         {
-          "name": "traefik.http.services.pihole.loadbalancer.server.port",
+          "name": "traefik.http.services.keycloak.loadbalancer.server.port",
           "value": "80"
         }
       ]
