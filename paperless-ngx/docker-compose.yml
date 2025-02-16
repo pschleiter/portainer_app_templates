@@ -53,7 +53,7 @@ services:
 
       # Paths and folder
       # PAPERLESS_EMPTY_TRASH_DIR: ../media/trash/
-      PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{created_month}_{created_day}_{title}"
+      PAPERLESS_FILENAME_FORMAT: "{{created_year}}/{{correspondent}}/{{created_month}}_{{created_day}}_{{title}}"
 
       # Paths and folder - Additional Options
       # PAPERLESS_CONSUMPTION_DIR: ../consume/
