@@ -73,10 +73,6 @@
           "value": "true"
         },
         {
-          "name": "traefik.http.routers.nextcloud.tls.certresolver",
-          "value": "myresolver"
-        },
-        {
           "name": "traefik.http.routers.nextcloud.rule",
           "value": "Host(`<hostname>`)"
         },
@@ -148,10 +144,6 @@
           "value": "true"
         },
         {
-          "name": "traefik.http.routers.lms.tls.certresolver",
-          "value": "myresolver"
-        },
-        {
           "name": "traefik.http.routers.lms.rule",
           "value": "Host(`<hostname>`)"
         },
@@ -221,10 +213,6 @@
         {
           "name": "traefik.http.routers.keycloak.tls",
           "value": "true"
-        },
-        {
-          "name": "traefik.http.routers.keycloak.tls.certresolver",
-          "value": "myresolver"
         },
         {
           "name": "traefik.http.routers.keycloak.rule",
@@ -364,10 +352,6 @@
           "value": "true"
         },
         {
-          "name": "traefik.http.routers.hass.tls.certresolver",
-          "value": "myresolver"
-        },
-        {
           "name": "traefik.http.routers.hass.rule",
           "value": "Host(`<hostname>`)"
         },
@@ -424,10 +408,6 @@
         {
           "name": "traefik.http.routers.pihole.tls",
           "value": "true"
-        },
-        {
-          "name": "traefik.http.routers.pihole.tls.certresolver",
-          "value": "myresolver"
         },
         {
           "name": "traefik.http.routers.pihole.rule",
