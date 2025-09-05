@@ -282,6 +282,24 @@
       ]
     },
     {
+      "type": 2,
+      "title": "Immich",
+      "description": "Self-hosted photo and video management solution",
+      "categories": ["media"],
+      "platform": "linux",
+      "repository": {
+        "url": "https://github.com/pschleiter/portainer_app_templates",
+        "stackfile": "immich/docker-compose.yml"
+      },
+      "env":[
+          {
+            "label": "Database Password",
+            "description": "Postgres database name",
+            "name": "DB_PASSWORD"
+          }
+      ]
+    },
+    {
       "type": 1,
       "title": "deCONZ",
       "description": "This Docker image containerizes the deCONZ software from Dresden Elektronik, which controls a ZigBee network using a Conbee USB or RaspBee GPIO serial interface.",
