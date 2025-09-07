@@ -23,6 +23,13 @@ services:
       disable: false
     networks:
       - backend
+    labels:
+      - traefik.enable=false
+      - traefik.http.routers.immich.entrypoints=websecure
+      - traefik.http.routers.immich.tls=true
+      - traefik.http.routers.immich.rule=Host(`${IMMICH_DOMAIN}`)
+      - traefik.http.routers.immich.service=immich
+      - traefik.http.services.immich.loadbalancer.server.port=2283
 
 
   immich-machine-learning:
