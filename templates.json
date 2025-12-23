@@ -178,7 +178,7 @@
         {
           "label": "Web interface port",
           "name": "HTTP_PORT",
-          "default": 9000
+          "default": "9000"
         }
       ],
       "volumes": [
