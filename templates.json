@@ -1,7 +1,8 @@
 {
-  "version": "2",
+  "version": "3",
   "templates": [
     {
+      "id": 1,
       "type": 1,
       "title": "PostgreSQL",
       "description": "The most advanced open-source database",
@@ -34,6 +35,7 @@
       ]
     },
     {
+      "id": 2,
       "type": 1,
       "title": "Gitea",
       "description": "Private, Fast, Reliable DevOps Platform",
@@ -104,6 +106,7 @@
       ]
     },
     {
+      "id": 3,
       "type": 1,
       "title": "Nextcloud",
       "description": "Content collaboration platform.",
@@ -157,6 +160,7 @@
       ]
     },
     {
+      "id": 4,
       "type": 1,
       "title": "Lyrion Music Server",
       "description": "With the help of many plugins, Lyrion Music Server can stream not only your local music collection, but content from many music services and internet radio stations to your players.",
@@ -228,6 +232,7 @@
       ]
     },
     {
+      "id": 5,
       "type": 1,
       "title": "Keycloak",
       "description": "Keycloak is an open source software product to allow single sign-on with identity and access management aimed at modern applications and services.",
@@ -299,6 +304,7 @@
       ]
     },
     {
+      "id": 6,
       "type": 3,
       "title": "Paperless NGX",
       "description": "Document management system",
@@ -352,6 +358,7 @@
       ]
     },
     {
+      "id": 7,
       "type": 2,
       "title": "Immich",
       "description": "Self-hosted photo and video management solution",
@@ -370,6 +377,7 @@
       ]
     },
     {
+      "id": 8,
       "type": 1,
       "title": "deCONZ",
       "description": "This Docker image containerizes the deCONZ software from Dresden Elektronik, which controls a ZigBee network using a Conbee USB or RaspBee GPIO serial interface.",
@@ -404,6 +412,7 @@
       "ports": ["9999:9999/tcp"]
     },
     {
+      "id": 9,
       "type": 1,
       "title": "Homeassistant",
       "description": "Open source home automation that puts local control and privacy first.",
@@ -454,6 +463,7 @@
       ]
     },
     {
+      "id": 10,
       "type": 1,
       "title": "Pi-hole",
       "description": "DNS server",
