@@ -33,6 +33,77 @@
           "value": "false"
         }
       ]
+    },
+    {
+      "id": 2,
+      "type": 1,
+      "title": "Gitea",
+      "description": "Private, Fast, Reliable DevOps Platform",
+      "categories": ["git"],
+      "platform": "linux",
+      "logo": "https://docs.gitea.com/img/favicon.png",
+      "image": "docker.gitea.com/gitea:latest-rootless",
+      "restart_policy": "always",
+      "env": [
+        {
+          "name": "GITEA__database__DB_TYPE",
+          "label": "Database type",
+          "default": "postgres"
+        },
+        {
+          "name": "GITEA__database__HOST",
+          "label": "Database host",
+          "default": "db:5432"
+        },
+        {
+          "name": "GITEA__database__NAME",
+          "label": "Database name"
+        },
+        {
+          "name": "GITEA__database__USER",
+          "label": "Database username"
+        },
+        {
+          "name": "GITEA__database__PASSWD",
+          "label": "Database password"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/var/lib/gitea",
+          "bind": "gitea_data"
+        },
+        {
+          "container": "/etc/gitea",
+          "bind": "gitea_config"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.gitea.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.gitea.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.gitea.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.gitea.service",
+          "value": "gitea"
+        },
+        {
+          "name": "traefik.http.services.gitea.loadbalancer.server.port",
+          "value": "3000"
+        }
+      ]
     }
   ]
 }
