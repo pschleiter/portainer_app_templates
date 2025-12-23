@@ -158,6 +158,78 @@
           "value": "80"
         }
       ]
+    },
+    {
+      "id": 4,
+      "type": 1,
+      "title": "Lyrion Music Server",
+      "description": "With the help of many plugins, Lyrion Music Server can stream not only your local music collection, but content from many music services and internet radio stations to your players.",
+      "categories": ["music"],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/LMS-Community/slimserver-platforms/public/9.0/win32/res/SqueezeCenter.ico",
+      "image": "lmscommunity/lyrionmusicserver:stable",
+      "restart_policy": "always",
+      "env": [
+        {
+          "label": "Timezone",
+          "name": "TZ",
+          "default": "Europa/Berlin"
+        },
+        {
+          "label": "Web interface port",
+          "name": "HTTP_PORT",
+          "default": 9000
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/config",
+          "bind": "lms_config",
+          "readonly": false
+        },
+        {
+          "container": "/music",
+          "bind": "lms_music",
+          "readonly": true
+        },
+        {
+          "container": "/playlist",
+          "bind": "lms_playlist",
+          "readonly": false
+        }
+      ],
+      "ports": [
+        "9000:9000/tcp",
+        "9090:9090/tcp",
+        "3483:3483/tcp",
+        "3483:3483/udp"
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.lms.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.lms.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.lms.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.lms.service",
+          "value": "lms"
+        },
+        {
+          "name": "traefik.http.services.lms.loadbalancer.server.port",
+          "value": "9000"
+        }
+      ]
     }
   ]
 }
