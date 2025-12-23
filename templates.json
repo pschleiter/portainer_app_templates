@@ -163,7 +163,7 @@
       "categories": ["music"],
       "platform": "linux",
       "logo": "https://raw.githubusercontent.com/LMS-Community/slimserver-platforms/public/9.0/win32/res/SqueezeCenter.ico",
-      "image": "lmscommunity/logitechmediaserver:stable",
+      "image": "lmscommunity/lyrionmusicserver:stable",
       "restart_policy": "always",
       "env": [
         {
