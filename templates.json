@@ -104,6 +104,60 @@
           "value": "3000"
         }
       ]
+    },
+    {
+      "id": 3,
+      "type": 1,
+      "title": "Nextcloud",
+      "description": "Content collaboration platform.",
+      "categories": ["fileshare"],
+      "platform": "linux",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Nextcloud_Logo.svg/1920px-Nextcloud_Logo.svg.png",
+      "image": "nextcloud:latest",
+      "restart_policy": "on-failure",
+      "env": [
+        {
+          "label": "Traefik IP",
+          "name": "TRUSTED_PROXIES"
+        },
+        {
+          "label": "Protocol",
+          "name": "OVERWRITEPROTOCOL",
+          "default": "https"
+        }
+      ],
+      "volumes": [
+        {
+          "container": "/var/www/html",
+          "bind": "nextcloud_data"
+        }
+      ],
+      "labels": [
+        {
+          "name": "traefik.enable",
+          "value": "false"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.entrypoints",
+          "value": "websecure"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.tls",
+          "value": "true"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.rule",
+          "value": "Host(`<hostname>`)"
+        },
+        {
+          "name": "traefik.http.routers.nextcloud.service",
+          "value": "nextcloud"
+        },
+        {
+          "name": "traefik.http.services.nextcloud.loadbalancer.server.port",
+          "value": "80"
+        }
+      ]
     }
   ]
 }
